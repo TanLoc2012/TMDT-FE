@@ -1,0 +1,110 @@
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Restaurent</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Modernizr js -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="http://localhost/TMDT/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="header-wrapper">
+        <div class="header container">
+            <h3>WECHILL</h3>
+            <div class="header__search">
+                <input type="text" placeholder="Tìm kiếm sản phẩm" />
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <div class="header__icon">
+                <i class="fa-solid fa-user"></i>
+                <i class="fa-solid fa-cart-shopping"></i>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="cart">
+            <div class="cart__left">
+                <h4>Thông tin giỏ hàng</h4>
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Sản phẩm</th>
+                        <th scope="col">Giá</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Tổng tiền</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>
+                            <img class="table-img" src="http://localhost/TMDT/images/p2.jpg" alt="Product image">
+                            <span>Bo aaaaaaaaaaaaaaaaaaaaaaaaaaaa</span>
+                        </td>
+                        <td>200.000 đ</td>
+                        <td></td>
+                        <td>200.000 đ</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>
+                            <img class="table-img" src="http://localhost/TMDT/images/p2.jpg" alt="Product image">
+                            <span>Bo aaaaaaaaaaaaaaaaaaaaaaaaaaaa</span>
+                        </td>
+                        <td>200.000 đ</td>
+                        <td></td>
+                        <td>200.000 đ</td>
+                      </tr>
+                    </tbody>
+                  </table>
+            </div>
+            <div class="cart__right">
+                <h4>Thanh toán tiền</h4>
+                <div>Tổng tiền</div>
+                <div>200.000 đ</div>
+                <div class="">
+                    <div>Các phương thức thanh toán</div>
+                    <button style="margin-left: 50px;height: 38px;" class="btn btn-danger"><a style="color:white" href="http://localhost/TMDT/vnpay.php">VNPAY</a></button>
+                    <form style="margin: 0 25px" class="" method="POST" target="_blank" enctype="application/x-www-form-urlencoded"
+                          action="momo-qrcode.php">
+                    <input type='submit' name="momo" value="Thanh toan momo QRcode" class="btn btn-danger"/>
+                </div>
+                <div id="paypal-button-container"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+<script src="https://www.paypal.com/sdk/js?client-id=Ae0hsMHQSEQ4MnjdNVjWUZ_j_GXRGX7EOe1ILeS5qP6f6nw1zBfJwW1vGS22w-HKAkFLi3gJ85Yu1m2y&currency=USD"></script>
+<script>
+    paypal.Buttons({
+      // Sets up the transaction when a payment button is clicked
+      createOrder: (data, actions) => {
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: '20.90' // Can also reference a variable or function
+            }
+          }]
+        });
+      },
+      // Finalize the transaction after payer approval
+      onApprove: (data, actions) => {
+        return actions.order.capture().then(function(orderData) {
+          // Successful capture! For dev/demo purposes:
+          console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+          const transaction = orderData.purchase_units[0].payments.captures[0];
+          alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
+          // When ready to go live, remove the alert and show a success message within this page. For example:
+          // const element = document.getElementById('paypal-button-container');
+          // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+        });
+      }
+    }).render('#paypal-button-container');
+  </script>
